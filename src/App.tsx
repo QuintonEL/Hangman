@@ -7,11 +7,11 @@ import { Keyboard } from "./Keyboard";
 function App() {
   // update the app state with a random word each time the page is reloaded
   const [wordToGuess, setWordToGuess] = useState(() => {
-    return words[Math.floor(Math.random() * words.length)]
-  })
+    return words[Math.floor(Math.random() * words.length)];
+  });
 
   // initialize state with empty array of strings to keep track of guessed letters
-  const [guessedLetters, setGuessedLetters] = useState<string[]>([])
+  const [guessedLetters, setGuessedLetters] = useState<string[]>([]);
 
   return (
     <div
@@ -21,15 +21,17 @@ function App() {
         flexDirection: "column",
         gap: "2rem",
         margin: "0 auto",
-        alignItems: "center"
+        alignItems: "center",
       }}
     >
       <div style={{ fontSize: "2rem", textAlign: "center" }}>Lose Win</div>
       <HangmanDrawing />
       <HangmanWord />
-      <Keyboard />
+      <div style={{ alignSelf: "stretch" }}>
+        <Keyboard />
+      </div>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
