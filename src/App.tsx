@@ -4,11 +4,13 @@ import { HangmanDrawing } from "./HangmanDrawing";
 import { HangmanWord } from "./HangmanWord";
 import { Keyboard } from "./Keyboard";
 
+function getWord() {
+  return words[Math.floor(Math.random() * words.length)];
+}
+
 function App() {
   // update the app state with a random word each time the page is reloaded
-  const [wordToGuess, setWordToGuess] = useState(() => {
-    return words[Math.floor(Math.random() * words.length)];
-  });
+  const [wordToGuess, setWordToGuess] = useState(getWord);
 
   // initialize state with empty array of strings to keep track of guessed letters
   const [guessedLetters, setGuessedLetters] = useState<string[]>([]);
@@ -48,6 +50,30 @@ function App() {
       document.removeEventListener("keypress", handler);
     };
   }, [guessedLetters]);
+
+  // use enter key to get a new word
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      const key = e.key;
+      if (key !== "Enter") return;
+
+      e.preventDefault;
+      setGuessedLetters([]);
+      setWordToGuess(getWord());
+
+      // if not a a-z letter keypress, ignore, otherwise move on
+      if (!key.match(/^[a-z]$/)) return;
+
+      e.preventDefault();
+      addGuessedLetter(key);
+    };
+
+    document.addEventListener("keypress", handler);
+
+    return () => {
+      document.removeEventListener("keypress", handler);
+    };
+  }, []);
 
   return (
     <div
